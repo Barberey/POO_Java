@@ -1,0 +1,172 @@
+\newpage
+\section{Spécification du projet}
+\label{sec:specification}
+
+\paragraph{} Nous avons présenté l'objectif du projet dans la section \ref{sec:introduction}. Dans cette section, nous présentons la spécification de notre logiciel réalisé. Ceci correspond principalement au document de spécification du projet (cahier des charges).
+
+\subsection{Notions de base et contraintes du projet}
+\label{sec:spec1}
+
+\paragraph{}
+    Voici une liste détaillée des termes et notion importante à définir pour notre projet :
+
+
+\paragraph{Règles Football :} Pour les règles, nous nous baserons sur celle des compétitions internationales.
+
+\paragraph{Les Systèmes de jeu :} Au football, le système de jeu est une façon d’organiser les joueurs afin que ceux-ci aient des consignes spécifiques même si ces responsabilités et ces fonctions sont par essence momentanées, elles assurent une filiation avec un ensemble de lignes directrices et de règles en fonction de la rencontre à venir et des conceptions de l’entraîneur. L’utilisateur aura la possibilité de choisir parmi un ensemble fini de système. Cet ensemble contiendra majoritairement les systèmes populaires des compositions plus fantaisies. Durant la simulation, les joueurs suivront scrupuleusement ce système dans leurs placement naturel.
+
+\paragraph{Choix stratégique :} Le système de choix stratégique intervient après le choix des différents joueurs, ce système permet de définir le type de jeu que l'équipe de l’utilisateur va suivre. Ce choix va dicter le comportement général des joueurs dans leur placement sans ballon, leur réaction à la perte ou à la récupération du ballon. Ce choix va se représenter par différentes barres à incrémenter ou non. Ces différentes barres correspondent à différentes stratégies : contre-attaque, pièges hors jeu, pressing et bloc bas.De plus, pendant ce choix, l’utilisateur devra choisir les joueurs qui tireront les corners, coups francs et penalty
+
+\paragraph{Équipes :} Équipe composée de 11 joueurs sur le terrain. On distingue graphiquement ces équipes par des couleurs de maillots.
+
+\paragraph{Joueurs :} Les joueurs seront générée aléatoirement avec noms et prénoms issus d’une liste et de statistiques (cf. prochain point) qui les distinguent. Cette génération se base sur une génération de 35 joueurs réparties en archétypes : 5 gardiens, 10 défenseurs, 10 attaquants et 10 milieux. Par la suite, l’utilisateur va composer son équipe en prenant compte des différences statistiques et son système puis choisir les remplaçants/titulaires.
+
+\paragraph{Statistiques :} Les statistiques sont les représentations numériques du niveau du joueur dans certaines catégories. Elles entrent directement en compte dans la réussite d’une action (cf. prochain point). La génération aléatoire de celles ci s’effectuer comme tel : un joueur de l'archétype défenseur a une défense de base de 70 puis un nombre entre [-10;+20] sera appliquée donnant la statistique finale du joueur (les nombres ne sont absolument pas définitif, ils sont donnés à titre d’exemple).Les statistiques communes à tous les archétypes sont : défense, tir, passe, endurance, vitesse et zone d’action.Pour les gardiens, une statistique arrêt existe.
+
+\paragraph{Fonction des statistiques :} La défense rentre en compte dans les actions défensives telles que les interceptions, les tacles et le marquage. Le tir correspond à la capacité du joueur à réussir un tir. Passe correspond au chance de réussite d’une passe. L’endurance est une statistique qui ajoute des malus dans la réalisations d’autres actions représentant la fatigue du joueur, c’est cette statistique qui va rentrer en compte lors du remplacement des joueurs. La vitesse retranscrit la vitesse de déplacement du joueur sur le terrain. La zone d’action correspond à une zone autour du joueur dans laquelle il peut tenter une action défensive. Pour les gardiens, la statistique d’arrêt est la chance que le gardien arrête le tir dans sa zone d’action. Le fonctionnement des statistiques se croisent dans le sens ou certaines vont infliger des malus dans la réalisation de certaines actions.
+
+\paragraph{Terrain :} Le terrain sera représenté sur la majorité de l'écran et respectera les ratios d’un véritable terrain de football. Pour manipuler les positions des éléments, le terrain sera divisé en grille pour mieux repérer les situations et gérer les déplacements. Dans notre système, le terrain possède plusieurs zones et en fonction de la zone, le système prendra différentes décisions, par exemple sur les côtés, le système privilégiera plutôt les centres que d’autres actions.
+
+\paragraph{Système d'action :}
+
+\begin{itemize}
+    \item \textbf{Principe de base :} Dans le projet, toutes les actions que les joueurs réalisent seront basées sur des calculs de chances de réussites. Ce calcul prendra en compte principalement la statistique prévue pour cette action (tir pour un tir ou défense pour tenter une interception,etc). Ensuite, la situation autour de l’action influence les chances de réussite, par exemple si un joueur tente un tir alors qu’il est marqué par un joueur de l'équipe adverse alors les chances de réussite du tir diminuent proportionnellement à la statistique de défense du défenseur et le positionnement des joueurs adverse influeront sur le choix des joueurs.
+
+    \vspace{10pt}
+
+    \item \textbf{Passe :} Elle sera réussie selon la statistique passe du joueur qui effectue cette passe. Cette action sera interceptable si un joueur de l’équipe adverse se situe sur le passage (selon la caractéristique zone d’action) et ensuite il y a la statistique défense qui rentre en compte et selon un calcul elle réduira la statistique passe sur le moment.
+
+    \vspace{10pt}
+
+    \item \textbf{Centre :} Durant un centre on peut soit tirer soit faire une passe, selon l’action effectuer la statistique correspondante sera utilisé. Cette action sera interceptable de la même manière que les passes (cf. point précédent).
+
+    \vspace{10pt}
+
+    \item \textbf{Tir :} Elle sera réussie selon la statistique tir du joueur qui effectue cette passe. Cette action sera interceptable si un joueur de l’équipe adverse se situe sur le passage (selon la caractéristique zone d’action) et ensuite il y a la statistique défense qui rentre en compte et selon un calcul elle réduira la statistique tir sur le moment.
+
+    \vspace{10pt}
+
+    \item \textbf{Tacle :} Cette action sera réalisée selon la statistique défense. Mais cette action peut engendrer des fautes selon la zone et la situation de jeu.
+
+    \vspace{10pt}
+
+    \item \textbf{Interception :} Cette action sera réalisée selon la statistique défense. De même que le tacle, l’action peut engendrer des fautes et des cartons selon la zone et la situation.
+\end{itemize}
+
+\paragraph{Actions spéciales :}
+
+\begin{itemize}
+    \item  \textbf{Hors-jeu :} L’hors-jeu se déclenche si au moment de la passe ou du centre, un joueur se situe derrière l’avant-dernier défenseur. Alors, l'équipe adverse récupère un coup franc.
+
+    \vspace{10pt}
+
+    \item \textbf{Faute :} Cette action sera activée lors d’une petite probabilité, lorsqu'il y aura une interaction entre deux joueurs du camp opposé.
+
+    \vspace{10pt}
+
+    \item \textbf{Corners :} Cette action sera déclenchée via une probabilité lors de l'arrêt d’un gardien que la balle ne soit pas captée dans ses mains et sorte ou bien lors de la déviation , elle se basera sur l’action centre.
+
+    \vspace{10pt}
+
+    \item \textbf{Coups francs :} Cette action sera déclenchée via une faute ou un hors-jeu. Elle permet de débloquer l’action tir et passe.
+
+    \vspace{10pt}
+
+    \item \textbf{Penalty :} Cette action sera débloquée si une faute est commise dans la surface de réparation. Elle permet de réaliser l’action tir par le joueur dénommer avant le match et après il y aura une probabilité que le gardien adverse puisse l'arrêter ou non.
+
+    \vspace{10pt}
+
+    \item \textbf{Touche :} Cette action sera réalisée par l’équipe opposée à celle l’ayant sortie. Elle permet d'activer l’action passe
+
+    \vspace{10pt}
+
+    \item \textbf{6 mètres :} Cette action sera effectuée selon les règles du football mais est quand même fortement similaire à un coup franc tiré par le gardien.
+\end{itemize}
+
+\vspace{10pt}
+
+\paragraph{Gestion avec ballon :}
+
+\begin{itemize}
+    \item \textbf{Joueur :} L’objectif individuel des joueurs sans ballon sera, si en situation d’attaque, de proposer des appels pour permettre d’avancer le ballon avec des passes ou des centres. Alors qu’en situation défensive, l’objectif sera plus de bien marquer leurs joueurs et de venir renforcer dans les espaces vulnérables quand il le faut (percée adverse, etc.)
+
+    \vspace{10pt}
+
+    \item \textbf{Équipes :} Lors de situations sans ballon, l'équipe va d’abord suivre les choix tactiques définies avant le match par l’utilisateur. Ensuite, l'équipe va suivre quelques règles générales: un marquage joueur par joueur, un pressing sur le porteur du ballon et le bon positionnement du bloc défensif.
+\end{itemize}
+
+\vspace{10pt}
+
+\paragraph{Gestion sans ballon :}
+\begin{itemize}
+    \item \textbf{Joueurs :} Lorsqu’un joueur entre en possession du ballon, sa zone d’action diminue. De plus, les actions possibles s’ouvrent : possibilité de faire une passe, un tir, un centre. Enfin, le joueur perd la possibilité de toute action défensive.
+
+    \vspace{10pt}
+
+    \item \textbf{Équipes :} Lors de situation avec ballon, l'équipe va suivre le choix stratégique émis par l’utilisateur avant le match. De plus l’équipe va apporter le soutien au joueur qui possède la balle avec des appels, un démarquage, offrir des possibilités au joueurs ayant la balle.
+\end{itemize}
+
+\vspace{10pt}
+
+\subsection{Fonctionnalités attendues du projet}
+\label{sec:spec2}
+
+\paragraph{Avant le match :}
+
+\begin{itemize}
+
+    \item Choisir entre jouer/paramètre/quitter.
+
+    \vspace{10pt}
+    
+    \item Choisir le terrain.
+
+    \vspace{10pt}
+
+    \item Choisir son équipe et l’équipe adverse.
+
+    \vspace{10pt}
+    
+    \item À cette étape, l’utilisateur arrive sur une fenêtre avec une pré-visualisation des différents systèmes de jeu.
+
+    \vspace{10pt}
+
+    \item Il pourra ainsi choisir son système en les faisant défiler et en validant son choix.
+
+    \vspace{10pt}
+    
+    \item Choisir sa stratégie.
+
+    \vspace{10pt}
+
+    \item Lors du choix des joueurs, l’utilisateur aura sous les yeux une représentation du système et devra y placer les joueurs généré par le jeu.Enfin, il décide du banc des remplaçants. 
+
+    \vspace{10pt}
+
+    \item Choisir la durée du match.
+\end{itemize}
+
+\paragraph{Pendant le match :}
+
+\begin{itemize}
+    \item L’utilisateur ne pourra pas interagir avec le jeu. Pendant la simulation, l'écran sera concentré sur le terrain au centre et prenant la majorité de l’espace de l'écran, avec au-dessus un encart rappelant le scores, le temps et le noms des équipes.
+\end{itemize}
+
+\paragraph{Après le match :}
+
+\begin{itemize}
+    \item à la fin du match, une fenêtre récapitulant toutes les informations choisis par l’utilisateur avant le match et le résultat du match.
+
+    \vspace{10pt}
+
+    \item L'utilisateur pourra rejouer le match.
+
+    \vspace{10pt}
+
+    \item L'utilisateur pourra jouer un autre match.
+
+    \vspace{10pt}
+
+    \item L'utilisateur pourra quitter le jeu.
+    
+\end{itemize}
